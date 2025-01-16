@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
+
 interface CharacterCardProps {
   name: string
   image: string
@@ -11,6 +12,7 @@ interface CharacterCardProps {
 }
 
 export function CharacterCard({ name, image, films, profileUrl }: CharacterCardProps) {
+
   return (
     <Card className="w-[300px] overflow-hidden bg-white">
       <div className="aspect-square relative">

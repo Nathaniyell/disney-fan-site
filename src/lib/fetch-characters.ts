@@ -1,7 +1,8 @@
 interface DisneyCharacter {
     _id: number;
     name: string;
-    // Add other properties based on the API response
+    imageUrl: string;
+    url: string; 
 }
 
 export async function getDisneyCharacters(): Promise<DisneyCharacter[]> {
@@ -12,8 +13,15 @@ export async function getDisneyCharacters(): Promise<DisneyCharacter[]> {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data = await response.json();
-        return data;
+        const { data } = await response.json();
+
+        
+        return data.map((character: DisneyCharacter) => ({
+            _id: character._id,
+            name: character.name,
+            imageUrl: character.imageUrl,
+            url: character.url
+        }));
     } catch (error) {
         console.error('Error fetching Disney characters:', error);
         throw error;
