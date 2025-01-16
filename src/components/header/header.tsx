@@ -10,14 +10,14 @@ import logo from "../../../public/logo.png"
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b">
-      <div className="container flex h-16 items-center px-4 sm:px-8">
+      <div className="max-w-6xl mx-auto flex h-16 items-center px-4 sm:px-8">
         <Link href="/" className="mr-8">
           <Image
             src={logo}
             alt="Disney"
             width={80}
             height={40}
-            className="h-10 w-auto"
+            
             priority
           />
         </Link>
