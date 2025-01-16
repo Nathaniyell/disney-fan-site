@@ -33,11 +33,15 @@ export function CharacterCard({ name, imageUrl, url, films }: CharacterCardProps
             <p>Featured in:</p>
             <ul className="mt-1">
               {films.slice(0, 4).map((film, index) => (
-                <li className="text-sm text-slate-500 flex items-center justiy-center space-x-1" key={index}>{film}  {films.length > 4 && (
-                  <span>...</span>
-                )}</li>
+                <li className="text-sm text-slate-500 flex items-center justify-center space-x-1" key={index}>
+                  {film}
+                </li>
               ))}
-             
+              {films.length > 4 && (
+                <li className="text-sm text-slate-500 flex items-center justify-center space-x-1">
+                  <span>...</span>
+                </li>
+              )}
             </ul>
           </div>
         )}

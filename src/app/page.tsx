@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <div className="grid items-center justify-items-center min-h-screen pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <h1>Disney Characters</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 bg-slate-300">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center bg-neutral-200 p-8">
         {characters.map((character) => (
           <CharacterCard
             key={character._id}
