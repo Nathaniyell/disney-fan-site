@@ -1,9 +1,10 @@
 "use client"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { UserCircle } from 'lucide-react'
+import { User } from 'lucide-react'
 import Image from "next/image"
 import Link from "next/link"
+import logo from "../../../public/logo.png"
 
 
 export function Header() {
@@ -12,7 +13,7 @@ export function Header() {
       <div className="container flex h-16 items-center px-4 sm:px-8">
         <Link href="/" className="mr-8">
           <Image
-            src="/public/logo.png"
+            src={logo}
             alt="Disney"
             width={80}
             height={40}
@@ -31,10 +32,10 @@ export function Header() {
             </div>
           </div>
         </div>
-        <div className="ml-8">
-          <Avatar className="h-9 w-9 cursor-pointer">
-            <AvatarFallback className="bg-transparent">
-              <UserCircle className="h-8 w-8 text-white" />
+        <div className="ml-8 bg-disneyBlue rounded-full p-2">
+          <Avatar className="h-6 w-6 cursor-pointer">
+            <AvatarFallback className=" bg-disneyBlue">
+              <User className="h-4 w-4 text-white" />
             </AvatarFallback>
           </Avatar>
         </div>
