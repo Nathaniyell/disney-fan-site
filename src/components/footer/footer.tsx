@@ -5,7 +5,7 @@ import logo from "../../../public/logo.png"
 const Footer = () => {
     const currentYear = new Date().getFullYear()
     return (
-        <footer className='p-8 text-slate-600 text-center'>
+        <footer className='p-8 text-slate-600 md:text-center'>
             <div className='max-w-5xl mx-auto flex flex-col md:items-center gap-4 pb-4 border-b border-b-slate-200'>
 
             <Link href="/" className="mr-8">
@@ -18,7 +18,7 @@ const Footer = () => {
                     priority
                 />
             </Link>
-            <p className='text-sm '>For educational use only. All characters and content are the property of Disney. This test is for private use and development testing only and should not be distributed for public consumption </p>
+            <p className='text-sm'>For educational use only. All characters and content are the property of Disney. This test is for private use and development testing only and should not be distributed for public consumption </p>
             </div>
             <section className='text-center mt-4 text-sm'>&copy; {currentYear} All rights Reserved <Link href="https://nathanielessien.vercel.app" className='font-bold text-blue-600' target='_blank'>Nathaniel Essien</Link></section>
         </footer>
