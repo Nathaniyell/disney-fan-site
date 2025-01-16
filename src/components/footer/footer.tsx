@@ -20,7 +20,7 @@ const Footer = () => {
             </Link>
             <p className='text-sm'>For educational use only. All characters and content are the property of Disney. This test is for private use and development testing only and should not be distributed for public consumption </p>
             </div>
-            <section className='text-center mt-4 text-sm'>&copy; {currentYear} All rights Reserved <Link href="https://nathanielessien.vercel.app" className='font-bold text-blue-600' target='_blank'>Nathaniel Essien</Link></section>
+            <section className='text-center mt-4 text-sm  font-[family-name:var(--font-geist-sans)]'>&copy; {currentYear} All rights Reserved <Link href="https://nathanielessien.vercel.app" className='font-bold text-blue-600' target='_blank'>Nathaniel Essien</Link></section>
         </footer>
     )
 }
