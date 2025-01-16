@@ -2,7 +2,8 @@ interface DisneyCharacter {
     _id: number;
     name: string;
     imageUrl: string;
-    url: string; 
+    url: string;
+    films: string[];
 }
 
 export async function getDisneyCharacters(): Promise<DisneyCharacter[]> {
@@ -15,12 +16,13 @@ export async function getDisneyCharacters(): Promise<DisneyCharacter[]> {
 
         const { data } = await response.json();
 
-        
+
         return data.map((character: DisneyCharacter) => ({
             _id: character._id,
             name: character.name,
             imageUrl: character.imageUrl,
-            url: character.url
+            url: character.url,
+            films: character.films || []
         }));
     } catch (error) {
         console.error('Error fetching Disney characters:', error);
