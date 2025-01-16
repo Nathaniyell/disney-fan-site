@@ -16,14 +16,15 @@ export async function getDisneyCharacters(): Promise<DisneyCharacter[]> {
 
         const { data } = await response.json();
 
-
-        return data.map((character: DisneyCharacter) => ({
-            _id: character._id,
-            name: character.name,
-            imageUrl: character.imageUrl,
-            url: character.url,
-            films: character.films || []
-        }));
+        return data
+            .filter((character: DisneyCharacter) => character.films && character.films.length > 0)
+            .map((character: DisneyCharacter) => ({
+                _id: character._id,
+                name: character.name,
+                imageUrl: character.imageUrl,
+                url: character.url,
+                films: character.films
+            }));
     } catch (error) {
         console.error('Error fetching Disney characters:', error);
         throw error;
