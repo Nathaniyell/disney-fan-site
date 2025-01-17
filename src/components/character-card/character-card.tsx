@@ -8,11 +8,10 @@ import Link from "next/link"
 interface CharacterCardProps {
   name: string;
   imageUrl: string;
-  url: string;
   films: string[];
 }
 
-export function CharacterCard({ name, imageUrl, url, films }: CharacterCardProps) {
+export function CharacterCard({ name, imageUrl, films }: CharacterCardProps) {
 
   return (
     <Card className="w-[300px] rounded-none overflow-hidden bg-white">
@@ -51,7 +50,7 @@ export function CharacterCard({ name, imageUrl, url, films }: CharacterCardProps
           variant="ghost"
           className="w-full"
         >
-          <Link className="underline" href={url}>
+          <Link className="underline" href={`/${name}`}>
             VIEW PROFILE
           </Link>
         </Button>

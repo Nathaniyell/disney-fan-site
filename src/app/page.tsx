@@ -1,5 +1,5 @@
 import { CharacterCard } from "@/components/character-card/character-card";
-import { getDisneyCharacters } from "@/lib/fetch-characters";
+import { getDisneyCharacters } from "@/lib/actions/fetch-characters";
 
 
 export default async function Home() {
@@ -14,7 +14,6 @@ export default async function Home() {
             key={character.name}
             name={character.name}
             imageUrl={character.imageUrl}
-            url={character.url}
             films={character.films}
           />
         ))}
