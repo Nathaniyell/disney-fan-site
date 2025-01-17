@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Github, Loader2 } from "lucide-react"
 import Image from "next/image"
+import { Card } from "../ui/card"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { loginSchema, signupSchema, type LoginInput, type SignupInput } from "@/lib/validations/auth"
 
 interface AuthFormProps {
     mode: 'login' | 'signup'
@@ -11,31 +15,41 @@ interface AuthFormProps {
 
 export function AuthForm({ mode }: AuthFormProps) {
     const [isLoading, setIsLoading] = useState(false)
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [name, setName] = useState("")
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<SignupInput>({
+        resolver: zodResolver(mode === 'login' ? loginSchema : signupSchema),
+    })
+
+    const onSubmit = async (data: LoginInput | SignupInput) => {
         setIsLoading(true)
-        // Add your authentication logic here
-        setIsLoading(false)
+        try {
+            // Add your authentication logic here
+            console.log(data)
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
-        <div className="w-full max-w-md mx-auto space-y-8">
+        <Card className="w-full max-w-md mx-auto p-6 space-y-8">
             <div className="text-center">
                 <h1 className="text-2xl font-bold">
                     {mode === 'login' ? 'Welcome back' : 'Create your account'}
                 </h1>
-                <p className="text-gray-500 mt-2">
+                <p className="text-slate-500 mt-2">
                     {mode === 'login'
                         ? 'Enter your details to sign in'
                         : 'Enter your details to get started'}
                 </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 {mode === 'signup' && (
                     <div className="space-y-2">
                         <label htmlFor="name" className="block text-sm font-medium">
@@ -43,11 +57,12 @@ export function AuthForm({ mode }: AuthFormProps) {
                         </label>
                         <Input
                             id="name"
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
+                            {...register('name')}
+                            aria-invalid={!!errors.name}
                         />
+                        {errors.name && (
+                            <p className="text-sm text-red-500">{errors.name.message}</p>
+                        )}
                     </div>
                 )}
                 <div className="space-y-2">
@@ -57,10 +72,12 @@ export function AuthForm({ mode }: AuthFormProps) {
                     <Input
                         id="email"
                         type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
+                        {...register('email')}
+                        aria-invalid={!!errors.email}
                     />
+                    {errors.email && (
+                        <p className="text-sm text-red-500">{errors.email.message}</p>
+                    )}
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="password" className="block text-sm font-medium">
@@ -69,14 +86,16 @@ export function AuthForm({ mode }: AuthFormProps) {
                     <Input
                         id="password"
                         type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
+                        {...register('password')}
+                        aria-invalid={!!errors.password}
                     />
+                    {errors.password && (
+                        <p className="text-sm text-red-500">{errors.password.message}</p>
+                    )}
                 </div>
                 <Button
                     type="submit"
-                    className="w-full"
+                    className="w-full bg-disneyBlue"
                     disabled={isLoading}
                 >
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -89,7 +108,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                     <div className="w-full border-t"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                    <span className="bg-white px-2 text-gray-500">Or continue with</span>
+                    <span className="bg-white px-2 text-slate-500">Or continue with</span>
                 </div>
             </div>
 
@@ -110,10 +129,10 @@ export function AuthForm({ mode }: AuthFormProps) {
                 </Button>
             </div>
 
-            <p className="text-center text-sm text-gray-500">
+            <p className="text-center text-sm text-slate-500">
                 {mode === 'login' ? (
                     <>
-                        Don't have an account?{' '}
+                        Don&apos;t have an account?{' '}
                         <a href="/signup" className="text-blue-600 hover:underline">
                             Sign up
                         </a>
@@ -127,6 +146,6 @@ export function AuthForm({ mode }: AuthFormProps) {
                     </>
                 )}
             </p>
-        </div>
+        </Card>
     )
 } 

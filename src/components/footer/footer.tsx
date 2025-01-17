@@ -1,9 +1,19 @@
+"use client"
 import Image from 'next/image'
 import Link from 'next/link'
 import logo from "../../../public/logo.png"
+import { usePathname } from 'next/navigation'
+
 
 const Footer = () => {
     const currentYear = new Date().getFullYear()
+    const pathname = usePathname()
+    const isAuthPage = pathname.includes('/login') || pathname.includes('/signup')
+
+    if (isAuthPage) {
+        return null
+    }
+
     return (
         <footer className='p-8 text-slate-600 md:text-center'>
             <div className='max-w-6xl mx-auto flex flex-col md:items-center gap-4 pb-4 border-b border-b-slate-200'>
