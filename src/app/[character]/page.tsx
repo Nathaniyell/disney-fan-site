@@ -3,6 +3,14 @@ import Image from "next/image";
 import { getCharacterData } from "@/lib/actions/fetch-single-character";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 
 interface CharacterPageProps {
     params: {
@@ -14,13 +22,25 @@ interface CharacterPageProps {
 
 export default async function CharacterPage({ params }: CharacterPageProps) {
     const character = await getCharacterData(params.character);
-
+    console.log(character)
     if (!character) {
         notFound();
     }
 
     return (
         <div className="max-w-6xl mx-auto p-8">
+            <Breadcrumb className="mb-6">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>{character.name}</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
+
             <div className="flex flex-col md:flex-row gap-8">
                 {/* Character Image */}
                 <div className="relative aspect-square w-full max-w-[400px]">
@@ -38,7 +58,7 @@ export default async function CharacterPage({ params }: CharacterPageProps) {
                     <h1 className="text-2xl font-bold">{character.name}</h1>
 
                     <div className="text-sm text-gray-500">
-                        Last Updated {new Date().toLocaleDateString('en-US', {
+                        Last Updated {new Date(character.updatedAt).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric'
@@ -59,7 +79,7 @@ export default async function CharacterPage({ params }: CharacterPageProps) {
                         </div>
                     )}
 
-               
+
                     {character.tvShows && character.tvShows.length > 0 && (
                         <div>
                             <h2 className="text-xl font-[500] mb-2">TV Shows</h2>
@@ -74,7 +94,7 @@ export default async function CharacterPage({ params }: CharacterPageProps) {
                         </div>
                     )}
 
-                 
+
                     {character.shortFilms && character.shortFilms.length > 0 && (
                         <div>
                             <h2 className="text-xl font-[500] mb-2">Short Films</h2>
@@ -89,7 +109,7 @@ export default async function CharacterPage({ params }: CharacterPageProps) {
                         </div>
                     )}
                     <Button asChild className="bg-disneyBlue hover:bg-disneyBlue/90 text-white text-center">
-                        <Link target="_blank" href={character?.url}>Explore more character details</Link>
+                        <Link target="_blank" href={character?.sourceUrl}>Explore more character details</Link>
                     </Button>
                 </div>
             </div>
