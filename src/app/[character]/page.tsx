@@ -11,6 +11,8 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { FeaturedCharacters } from "@/components/featured-characters";
+import { getFeaturedCharacters } from "@/lib/actions/fetch-featured-characters";
 
 interface CharacterPageProps {
     params: {
@@ -22,7 +24,7 @@ interface CharacterPageProps {
 
 export default async function CharacterPage({ params }: CharacterPageProps) {
     const character = await getCharacterData(params.character);
-    console.log(character)
+    const featuredCharacters = await getFeaturedCharacters()
     if (!character) {
         notFound();
     }
@@ -41,7 +43,7 @@ export default async function CharacterPage({ params }: CharacterPageProps) {
                 </BreadcrumbList>
             </Breadcrumb>
 
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col md:flex-row gap-8 bg-stone-200 p-8 mb-20">
                 {/* Character Image */}
                 <div className="relative aspect-square w-full max-w-[400px]">
                     <Image
@@ -113,6 +115,7 @@ export default async function CharacterPage({ params }: CharacterPageProps) {
                     </Button>
                 </div>
             </div>
+            <FeaturedCharacters characters={featuredCharacters} />
         </div>
     );
 }
