@@ -17,7 +17,7 @@ export default function SearchPage() {
     const query = searchParams.get('q')
     const [results, setResults] = useState<Character[]>([])
     const [isLoading, setIsLoading] = useState(false)
-
+  
     useEffect(() => {
         async function fetchResults() {
             if (!query) {
@@ -35,14 +35,14 @@ export default function SearchPage() {
                 setIsLoading(false)
             }
         }
-
         fetchResults()
     }, [query])
 
     return (
-        <main className="container mx-auto px-4 py-8">
-            <h1 className="text-2xl font-bold mb-6">
-                {query ? `Search results for "${query}"` : 'Search Results'}
+        <main>
+        <section className="max-w-6xl mx-auto px-4 py-8 bg-neutral-200 pb-20">
+            <h1 className="text-2xl font-semibold text-center mb-6">
+                {query ? `Search results for - "${query}"` : 'Search Results'}
             </h1>
 
             {isLoading ? (
@@ -50,7 +50,7 @@ export default function SearchPage() {
                     <Loader2 className="h-8 w-8 animate-spin" />
                 </div>
             ) : results.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {results.map((character) => (
                         <CharacterCard
                             key={character._id}
@@ -65,6 +65,8 @@ export default function SearchPage() {
                     {query ? 'No results found' : 'Enter a search term to begin'}
                 </div>
             )}
+        </section>
+        {/* <FeaturedCharacters characters={featuredCharacters} /> */}
         </main>
     )
 } 
