@@ -8,7 +8,7 @@ interface DisneyCharacter {
 export async function getFeaturedCharacters(): Promise<DisneyCharacter[]> {
     try {
    
-        const featuredNames = ['Mickey Mouse', 'Donald Duck', 'Belle', 'Beast'];
+        const featuredNames = [ 'Winnie the Pooh', 'Simba','Mickey Mouse','Cinderella',];
 
         const characterPromises = featuredNames.map(name =>
             fetch(`https://api.disneyapi.dev/character?name=${encodeURIComponent(name)}`)
