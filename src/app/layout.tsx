@@ -30,7 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header />
-        <main className="max-w-6xl mx-auto font-[family-name:var(--font-geist-sans)]">
+        <main className="max-w-7xl mx-auto font-[family-name:var(--font-geist-sans)]">
 
         {children}
         </main>
