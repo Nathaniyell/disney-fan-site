@@ -1,5 +1,4 @@
 interface DisneyCharacter {
-    _id: number;
     name: string;
     imageUrl: string;
     url: string;
@@ -8,18 +7,34 @@ interface DisneyCharacter {
 
 export async function getDisneyCharacters(): Promise<DisneyCharacter[]> {
     try {
-        const response = await fetch("https://api.disneyapi.dev/character");
+        const characterNames = ['Aladdin', 'Abu', 'Elsa', 'Anna', 'Kristoff', 'Olaf'];
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const characterPromises = characterNames.map(name =>
+            fetch(`https://api.disneyapi.dev/character?name=${encodeURIComponent(name)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    if (result.data && !Array.isArray(result.data)) {
+                        return result.data.name.toLowerCase() === name.toLowerCase() ? result.data : undefined;
+                    }
+                    if (Array.isArray(result.data)) {
+                        return result.data.find((char: DisneyCharacter) =>
+                            char.name.toLowerCase() === name.toLowerCase()
+                        );
+                    }
+                    return undefined;
+                })
+        );
 
-        const { data } = await response.json();
+        const characters = await Promise.all(characterPromises);
 
-        return data
-            .filter((character: DisneyCharacter) => character.films && character.films.length > 0)
+        return characters
+            .filter((character): character is DisneyCharacter => !!character)
             .map((character: DisneyCharacter) => ({
-                _id: character._id,
                 name: character.name,
                 imageUrl: character.imageUrl,
                 url: character.url,

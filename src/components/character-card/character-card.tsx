@@ -6,7 +6,6 @@ import Link from "next/link"
 
 
 interface CharacterCardProps {
-  _id: number;
   name: string;
   imageUrl: string;
   url: string;
