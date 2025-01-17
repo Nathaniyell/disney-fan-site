@@ -16,7 +16,7 @@ interface FeaturedCharactersProps {
 export function FeaturedCharacters({ characters }: FeaturedCharactersProps) {
     return (
         <div className="max-w-6xl mx-auto px-8 py-12 bg-disneyBlue">
-            <h2 className="text-4xl font-bold text-center mb-12 text-white">
+            <h2 className="text-4xl text-center mb-12 text-white">
                 Featured Characters!
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto">
@@ -32,7 +32,7 @@ export function FeaturedCharacters({ characters }: FeaturedCharactersProps) {
                             />
                         </div>
                         <div className="p-4">
-                            <h3 className="text-xl font-bold text-center mb-2">
+                            <h3 className="text-xl font-semibold text-center mb-4 text-disneyBlue">
                                 {character.name}
                             </h3>
                             <div className="mb-4">
@@ -42,7 +42,7 @@ export function FeaturedCharacters({ characters }: FeaturedCharactersProps) {
                                 </p>
                             </div>
                             <Link href={`/${character.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                                <Button className="w-full" variant="outline">
+                                <Button className="w-full underline" variant="ghost">
                                     VIEW PROFILE
                                 </Button>
                             </Link>
