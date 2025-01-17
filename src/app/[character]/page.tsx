@@ -43,7 +43,7 @@ export default async function CharacterPage({ params }: CharacterPageProps) {
                 </BreadcrumbList>
             </Breadcrumb>
 
-            <div className="flex flex-col md:flex-row gap-8 bg-stone-200 p-8 mb-20">
+            <div className="flex flex-col md:flex-row gap-8 bg-neutral-200 p-8 pb-20">
                 {/* Character Image */}
                 <div className="relative aspect-square w-full max-w-[400px]">
                     <Image
