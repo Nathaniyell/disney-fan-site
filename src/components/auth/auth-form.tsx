@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -8,6 +9,11 @@ import { Card } from "../ui/card"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema, signupSchema, type LoginInput, type SignupInput } from "@/lib/validations/auth"
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "@/lib/firebase"; 
+import { useRouter } from "next/navigation"
+
+
 
 interface AuthFormProps {
     mode: 'login' | 'signup'
@@ -15,6 +21,7 @@ interface AuthFormProps {
 
 export function AuthForm({ mode }: AuthFormProps) {
     const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter();
 
     const {
         register,
@@ -27,14 +34,34 @@ export function AuthForm({ mode }: AuthFormProps) {
     const onSubmit = async (data: LoginInput | SignupInput) => {
         setIsLoading(true)
         try {
-            // Add your authentication logic here
-            console.log(data)
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setIsLoading(false)
-        }
+            if (mode === "login") {
+              await signInWithEmailAndPassword(auth, data.email, data.password);
+            } else {
+              await createUserWithEmailAndPassword(auth, data.email, data.password);
+            }
+            alert("Authentication successful!");
+            router.push("/");
+         }catch (error: any) {
+            console.error(error.message);
+            alert("Authentication failed: " + error.message);
+          } finally {
+            setIsLoading(false);
+          }
     }
+
+    const handleGoogleLogin = async () => {
+        const provider = new GoogleAuthProvider();
+        setIsLoading(true);
+        try {
+          await signInWithPopup(auth, provider);
+          alert("Google login successful!");
+        } catch (error: any) {
+          console.error(error.message);
+          alert("Google login failed: " + error.message);
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
     return (
         <Card className="w-full max-w-md mx-auto p-6 space-y-8">
@@ -113,7 +140,7 @@ export function AuthForm({ mode }: AuthFormProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="w-full" onClick={() => { }}>
+                <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>
                     <Image
                         src="/google.svg"
                         alt="Google"
