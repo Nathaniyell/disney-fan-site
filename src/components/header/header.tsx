@@ -4,13 +4,19 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { User } from 'lucide-react'
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import logo from "../../../public/logo.png"
 import { useState } from "react"
 
 export function Header() {
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState("")
+  const pathname = usePathname()
+  const isAuthPage = pathname.includes('/login') || pathname.includes('/signup')
+
+  if (isAuthPage) {
+      return null
+  }
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
