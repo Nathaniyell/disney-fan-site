@@ -13,6 +13,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthP
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation"
 import { useAuth } from '@/hooks/useAuth'
+import { toast } from "@/hooks/use-toast"
 
 
 
@@ -47,11 +48,17 @@ export function AuthForm({ mode }: AuthFormProps) {
             } else {
                 await createUserWithEmailAndPassword(auth, data.email, data.password);
             }
-            alert("Authentication successful!");
+            toast({
+                title: "Authentication successful!",
+                variant: "success",
+            })
             router.push("/");
         } catch (error: any) {
             console.error(error.message);
-            alert("Authentication failed: " + error.message);
+                toast({
+                    title: "Authentication failed: " + error.message,
+                variant: "destructive",
+            })
         } finally {
             setIsLoading(false);
         }
@@ -62,10 +69,16 @@ export function AuthForm({ mode }: AuthFormProps) {
         setIsLoading(true);
         try {
             await signInWithPopup(auth, provider);
-            alert("Google login successful!");
+            toast({
+                title: "Google login successful!",
+                variant: "success",
+            })
         } catch (error: any) {
             console.error(error.message);
-            alert("Google login failed: " + error.message);
+            toast({
+                title: "Google login failed: " + error.message,
+                variant: "destructive",
+            })
         } finally {
             setIsLoading(false);
         }
