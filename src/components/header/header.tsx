@@ -1,12 +1,20 @@
 "use client"
 import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { User } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { User, LogOut, ChevronDown } from 'lucide-react'
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import logo from "../../../public/logo.png"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { auth } from "@/lib/firebase"
+import { signOut } from "firebase/auth"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export function Header() {
   const router = useRouter()
@@ -14,8 +22,26 @@ export function Header() {
   const pathname = usePathname()
   const isAuthPage = pathname.includes('/login') || pathname.includes('/signup')
 
+  const [user, setUser] = useState(auth.currentUser)
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user)
+    })
+    return () => unsubscribe()
+  }, [])
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+      router.push('/login')
+    } catch (error) {
+      console.error('Error signing out:', error)
+    }
+  }
+
   if (isAuthPage) {
-      return null
+    return null
   }
 
   const handleSearch = (e: React.FormEvent) => {
@@ -50,12 +76,34 @@ export function Header() {
             </form>
           </div>
         </div>
-        <div className="ml-6 bg-disneyBlue rounded-full p-2">
-          <Avatar className="h-6 w-6 cursor-pointer">
-            <AvatarFallback className="bg-disneyBlue">
-              <User className="h-4 w-4 text-white" />
-            </AvatarFallback>
-          </Avatar>
+        <div className="ml-6">
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-1">
+                <Avatar className="h-8 w-8 cursor-pointer">
+                  <AvatarImage src={user.photoURL || undefined} />
+                  <AvatarFallback className="bg-disneyBlue">
+                    <User className="h-4 w-4 text-white" />
+                  </AvatarFallback>
+                </Avatar>
+                <ChevronDown className="h-4 w-4 text-gray-500" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Logout</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link href="/login">
+              <Avatar className="h-8 w-8 cursor-pointer">
+                <AvatarFallback className="bg-disneyBlue">
+                  <User className="h-4 w-4 text-white" />
+                </AvatarFallback>
+              </Avatar>
+            </Link>
+          )}
         </div>
       </div>
     </header>
