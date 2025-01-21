@@ -6,7 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import logo from "../../../public/logo.png"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { auth } from "@/lib/firebase"
 import { signOut } from "firebase/auth"
 import {
@@ -15,21 +15,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useAuth } from '@/hooks/useAuth'
 
 export function Header() {
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState("")
   const pathname = usePathname()
   const isAuthPage = pathname.includes('/login') || pathname.includes('/signup')
-
-  const [user, setUser] = useState(auth.currentUser)
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user)
-    })
-    return () => unsubscribe()
-  }, [])
+  const { user, loading } = useAuth()
 
   const handleLogout = async () => {
     try {
@@ -77,7 +70,7 @@ export function Header() {
           </div>
         </div>
         <div className="ml-6">
-          {user ? (
+          {!loading && (user ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1">
                 <Avatar className="h-8 w-8 cursor-pointer">
@@ -103,7 +96,7 @@ export function Header() {
                 </AvatarFallback>
               </Avatar>
             </Link>
-          )}
+          ))}
         </div>
       </div>
     </header>

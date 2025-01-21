@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Github, Loader2 } from "lucide-react"
@@ -10,8 +10,9 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema, signupSchema, type LoginInput, type SignupInput } from "@/lib/validations/auth"
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "@/lib/firebase"; 
+import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation"
+import { useAuth } from '@/hooks/useAuth'
 
 
 
@@ -22,6 +23,13 @@ interface AuthFormProps {
 export function AuthForm({ mode }: AuthFormProps) {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter();
+    const { user, loading } = useAuth()
+
+    useEffect(() => {
+        if (user && !loading) {
+            router.push('/')
+        }
+    }, [user, loading, router])
 
     const {
         register,
@@ -35,33 +43,43 @@ export function AuthForm({ mode }: AuthFormProps) {
         setIsLoading(true)
         try {
             if (mode === "login") {
-              await signInWithEmailAndPassword(auth, data.email, data.password);
+                await signInWithEmailAndPassword(auth, data.email, data.password);
             } else {
-              await createUserWithEmailAndPassword(auth, data.email, data.password);
+                await createUserWithEmailAndPassword(auth, data.email, data.password);
             }
             alert("Authentication successful!");
             router.push("/");
-         }catch (error: any) {
+        } catch (error: any) {
             console.error(error.message);
             alert("Authentication failed: " + error.message);
-          } finally {
+        } finally {
             setIsLoading(false);
-          }
+        }
     }
 
     const handleGoogleLogin = async () => {
         const provider = new GoogleAuthProvider();
         setIsLoading(true);
         try {
-          await signInWithPopup(auth, provider);
-          alert("Google login successful!");
+            await signInWithPopup(auth, provider);
+            alert("Google login successful!");
         } catch (error: any) {
-          console.error(error.message);
-          alert("Google login failed: " + error.message);
+            console.error(error.message);
+            alert("Google login failed: " + error.message);
         } finally {
-          setIsLoading(false);
+            setIsLoading(false);
         }
-      };
+    };
+
+    if (loading) {
+        return <div className="flex justify-center items-center min-h-[400px]">
+            <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+    }
+
+    if (user) {
+        return null
+    }
 
     return (
         <Card className="w-full max-w-md mx-auto p-6 space-y-8">
