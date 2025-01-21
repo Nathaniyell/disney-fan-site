@@ -26,7 +26,7 @@ export default function ProfilePage() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <Card className="max-w-2xl mx-auto p-6">
+            <Card className="max-w-4xl mx-auto p-6 shadow-none border-none bg-neutral-200 rounded-none">
                 <div className="flex flex-col items-center space-y-4 mb-6">
                     <Avatar className="h-24 w-24">
                         <AvatarImage src={user.photoURL || undefined} />
@@ -71,7 +71,7 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="mt-6">
-                    <Button variant="default" className="w-full bg-disneyBlue">
+                    <Button variant="default" className="w-fit bg-disneyBlue">
                         Edit Profile
                     </Button>
                 </div>
