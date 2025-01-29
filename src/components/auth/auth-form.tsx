@@ -14,6 +14,7 @@ import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation"
 import { useAuth } from '@/hooks/useAuth'
 import { toast } from "@/hooks/use-toast"
+import Link from "next/link"
 
 
 
@@ -191,16 +192,16 @@ export function AuthForm({ mode }: AuthFormProps) {
                 {mode === 'login' ? (
                     <>
                         Don&apos;t have an account?{' '}
-                        <a href="/signup" className="text-blue-600 hover:underline">
+                        <Link  href="/signup" className="text-blue-600 hover:underline">
                             Sign up
-                        </a>
+                        </Link>
                     </>
                 ) : (
                     <>
                         Already have an account?{' '}
-                        <a href="/login" className="text-blue-600 hover:underline">
+                        <Link href="/login" className="text-blue-600 hover:underline">
                             Sign in
-                        </a>
+                        </Link>
                     </>
                 )}
             </p>

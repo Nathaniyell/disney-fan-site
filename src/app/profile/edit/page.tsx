@@ -14,7 +14,7 @@ import { toast } from '@/hooks/use-toast'
 interface ProfileData {
     firstName: string
     lastName: string
-    birthDate: string
+    birthDate: stringshaibusolomon@uniuyo.edu.ng
     city: string
     state: string
     favoriteCharacter: string
