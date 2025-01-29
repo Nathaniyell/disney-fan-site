@@ -12,6 +12,8 @@ interface CharacterCardProps {
 }
 
 export function CharacterCard({ name, imageUrl, films }: CharacterCardProps) {
+  // Encode the character name for the URL
+  const encodedName = encodeURIComponent(name);
 
   return (
     <Card className="w-[300px] rounded-none overflow-hidden bg-white">
@@ -50,7 +52,7 @@ export function CharacterCard({ name, imageUrl, films }: CharacterCardProps) {
           variant="ghost"
           className="w-full"
         >
-          <Link className="underline" href={`/${name}`}>
+          <Link className="underline" href={`/character/${encodedName}`}>
             VIEW PROFILE
           </Link>
         </Button>

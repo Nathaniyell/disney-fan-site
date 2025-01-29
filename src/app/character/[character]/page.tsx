@@ -20,11 +20,13 @@ interface CharacterPageProps {
     };
 }
 
-
-
 export default async function CharacterPage({ params }: CharacterPageProps) {
-    const character = await getCharacterData(params.character);
+    // Remove any query parameters and decode the character name from the URL
+    const characterName = params.character.split('?')[0];
+    const decodedCharacter = decodeURIComponent(characterName);
+    const character = await getCharacterData(decodedCharacter);
     const featuredCharacters = await getFeaturedCharacters()
+
     if (!character) {
         notFound();
     }

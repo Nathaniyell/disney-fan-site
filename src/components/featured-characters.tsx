@@ -41,7 +41,7 @@ export function FeaturedCharacters({ characters }: FeaturedCharactersProps) {
                                     {character.films.slice(0, 4).join(", ")}
                                 </p>
                             </div>
-                            <Link href={`/${character.name.toLowerCase().replace(/\s+/g, '-')}`}>
+                            <Link href={`/character/${character.name.toLowerCase()}`}>
                                 <Button className="w-full underline" variant="ghost">
                                     VIEW PROFILE
                                 </Button>
