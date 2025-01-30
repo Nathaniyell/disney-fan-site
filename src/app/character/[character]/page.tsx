@@ -14,13 +14,14 @@ import {
 import { FeaturedCharacters } from "@/components/featured-characters";
 import { getFeaturedCharacters } from "@/lib/actions/fetch-featured-characters";
 
-interface CharacterPageProps {
+type Props = {
     params: {
         character: string;
     };
+    // searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default async function CharacterPage({ params }: CharacterPageProps) {
+export default async function CharacterPage({ params }: Props) {
     // Remove any query parameters and decode the character name from the URL
     const characterName = params.character.split('?')[0];
     const decodedCharacter = decodeURIComponent(characterName);
