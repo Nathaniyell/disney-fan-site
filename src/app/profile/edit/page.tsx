@@ -1,14 +1,14 @@
-"use client"
-import { useAuth } from '@/hooks/useAuth'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Loader2 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { doc, setDoc, getFirestore } from 'firebase/firestore'
-import { toast } from '@/hooks/use-toast'
+"use client";
+import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { doc, setDoc, getFirestore } from 'firebase/firestore';
+import { toast } from '@/hooks/use-toast';
 
 
 interface ProfileData {
@@ -24,9 +24,9 @@ interface ProfileData {
 }
 
 export default function EditProfilePage() {
-    const { user, loading } = useAuth()
-    const router = useRouter()
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    const { user, loading } = useAuth();
+    const router = useRouter();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState<ProfileData>({
         firstName: '',
         lastName: '',
@@ -37,66 +37,66 @@ export default function EditProfilePage() {
         favoriteMovie: '',
         favoriteRide: '',
         favoriteDisneyland: ''
-    })
+    });
 
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-[400px]">
                 <Loader2 className="h-8 w-8 animate-spin" />
             </div>
-        )
+        );
     }
 
     if (!user) {
-        router.push('/login')
-        return null
+        router.push('/login');
+        return null;
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target
+        const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: value
-        }))
-    }
+        }));
+    };
 
     const handleSelectChange = (value: string, name: string) => {
         setFormData(prev => ({
             ...prev,
             [name]: value
-        }))
-    }
+        }));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        setIsSubmitting(true)
+        e.preventDefault();
+        setIsSubmitting(true);
 
         try {
-            const db = getFirestore()
-            const userRef = doc(db, 'users', user.uid)
+            const db = getFirestore();
+            const userRef = doc(db, 'users', user.uid);
 
             await setDoc(userRef, {
                 ...formData,
                 updatedAt: new Date().toISOString(),
-            }, { merge: true })
+            }, { merge: true });
 
             toast({
                 title: "Profile updated successfully!",
                 variant: "success",
-            })
+            });
 
-            router.push('/profile')
+            router.push('/profile');
         } catch (error) {
-            console.error('Error updating profile:', error)
+            console.error('Error updating profile:', error);
             toast({
                 title: "Failed to update profile",
                 description: "Please try again later",
                 variant: "destructive",
-            })
+            });
         } finally {
-            setIsSubmitting(false)
+            setIsSubmitting(false);
         }
-    }
+    };
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -256,5 +256,5 @@ export default function EditProfilePage() {
                 </form>
             </Card>
         </div>
-    )
+    );
 } 
