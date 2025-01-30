@@ -12,15 +12,15 @@ import { toast } from '@/hooks/use-toast'
 
 
 interface ProfileData {
-    firstName: string
-    lastName: string
-    birthDate: stringshaibusolomon@uniuyo.edu.ng
-    city: string
-    state: string
-    favoriteCharacter: string
-    favoriteMovie: string
-    favoriteRide: string
-    favoriteDisneyland: string
+    firstName: string;
+    lastName: string;
+    birthDate: string;
+    city: string;
+    state: string;
+    favoriteCharacter: string;
+    favoriteMovie: string;
+    favoriteRide: string;
+    favoriteDisneyland: string;
 }
 
 export default function EditProfilePage() {
