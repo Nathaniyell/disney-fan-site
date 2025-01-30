@@ -11,7 +11,7 @@ import { doc, setDoc, getFirestore } from 'firebase/firestore';
 import { toast } from '@/hooks/use-toast';
 
 
-interface ProfileData {
+type ProfileData = {
     firstName: string;
     lastName: string;
     birthDate: string;
